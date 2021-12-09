@@ -4,11 +4,11 @@ Code for the project on Meta-Transactions using [OpenZeppelin Defender](https://
 
 This project consists of a sample MinimalForwarder, ERC20, ERC20 with permit and ERC721 contracts. The project implements the following approaches for buying ERC721 with meta transactions where the user is not needed to possess Matic:
 
- ### Buy ERC721 with ERC20
+ #### Buy ERC721 with ERC20
   - User approves ERC721 to spend his ERC20 resources. In order to `MinimalForwarder` contract be made to execute the transaction from the `relayer`,  `signMetaTxRequest`(/app/src/eth/signer) function has to be invoked. `Relayer` pays for the transaction in Matic for the user.
   - User buys ERC721. MinimalForwarder contract executes transaction from the `relayer`, who pays for the transaction in Matic for the user, the price of the ERC721 is paid by the user, then user is transferred the ERC721.
 
-## Buy ERC721 with ERC20 with Permit
+ #### Buy ERC721 with ERC20 with Permit
   - User signs with permit with invocation of `signWithPermit`(/app/src/eth/signerPermit) in order to both `approve` and `buy` in one transaction. After generating the signature on the FE (meta-txs-OZ-defender/app), the parameters needed, are extracted and passed in order to be signed for the invocation of the function `signMetaTxRequest`(/app/src/eth/signer). The `MinimalForwarder` contract executes transaction `from` the `relayer`, who pays for the transaction in Matic for the user, the price of the ERC721 is paid by the user, then user is transferred the ERC721.
 
 ## Structure
@@ -40,7 +40,7 @@ Expected `.env` file in the project root:
 - `AUTOTASK_ID`: Defender Autotask ID to update when running `yarn upload`.
 - `TEAM_API_KEY`: Defender Team API key, used for uploading autotask code.
 - `TEAM_API_SECRET`: Defender Team API secret.
-- `API_KEY`:"Etherscan API key"
+- `API_KEY`: Etherscan API key.
 
 Expected `.env` file in `/app`:
 
@@ -68,7 +68,7 @@ Store the value of a new private key in our projects `.env` file and fund the ad
 
 ### Deploy contracts
 
-Deploy the MinimalForwarder, ERC20, ERC20 with permit and ERC721 contracts to Mumbai
+Deploy the MinimalForwarder, ERC20, ERC20 with permit and ERC721 contracts to Mumbai.
 
 ```js
 $ yarn deploy
