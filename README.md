@@ -97,7 +97,7 @@ $ yarn upload
 We can sign another name for the registry and then send a request to the Autotask webhook to relay and finally view the registry.
 
 ```js
-$ NAME=alice yarn sign
+$ QTY=1 yarn sign
 $ curl -XPOST 'Your Autotask Webhook URI goes here' -H 'Content-type: application/json' -d '@tmp/request.json'
 $ yarn events
 ```
