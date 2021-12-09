@@ -97,7 +97,7 @@ $ yarn upload
 We can sign another name for the registry and then send a request to the Autotask webhook to relay and finally view the registry.
 
 ```js
-$ NAME=alice yarn sign
+$ QTY=1 yarn sign
 $ curl -XPOST 'Your Autotask Webhook URI goes here' -H 'Content-type: application/json' -d '@tmp/request.json'
 $ yarn events
 ```
@@ -114,6 +114,6 @@ $ yarn start
 ```
 
 1. Open app: [http://localhost:3000/](http://localhost:3000/)
-2. [Connect MetaMask to Mumbai network] and change to Mumbai network
-3. Enter a name to register and sign the metatransaction in MetaMask
-4. Your name will be registered, showing the address that created the metatransaction and the name.
+2. [Connect MetaMask to Mumbai network] and change to Mumbai network.
+3. Enter a quantity to be bought and execute `approve`, `buy` or `buy with permit`.
+4. Your purchase will be made, showing the address that created the meta transaction and the token IDs of the corresponding ERC721 tokens.

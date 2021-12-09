@@ -10,6 +10,8 @@ async function deploy(name, ...params) {
 }
 
 describe("autotasks/relay", function () {
+  const qtyToBuy = "1";
+
   beforeEach(async function () {
     this.forwarder = await deploy('MinimalForwarder');
     this.erc20Mock = await deploy('ERC20Mock', this.forwarder.address, 1000);
@@ -21,7 +23,6 @@ describe("autotasks/relay", function () {
 
   it("should approve and buy via a meta-tx", async function () {
     const { forwarder, erc20Mock, erc721Meta, signer } = this;
-    const qtyToBuy = "1";
 
     const { request: requestApprove, signature: signatureApprove } = await signMetaTxRequest(signer.provider, forwarder, {
       from: signer.address,
@@ -43,21 +44,20 @@ describe("autotasks/relay", function () {
     const { request: requestBuy, signature: signatureBuy } = await signMetaTxRequest(signer.provider, forwarder, {
       from: signer.address,
       to: erc721Meta.address,
-      data: erc721Meta.interface.encodeFunctionData('buy', [1]),
+      data: erc721Meta.interface.encodeFunctionData('buy', [+qtyToBuy]),
     });
 
     await relay(forwarder, requestBuy, signatureBuy);
 
-    const ERC721Owner = (await erc721Meta.ownerOf(1)).toString();
+    const ERC721Owner = (await erc721Meta.ownerOf(+qtyToBuy)).toString();
     const balanceERC721Contract = (await erc20Mock.balanceOf(erc721Meta.address)).toString();
 
     expect(ERC721Owner).to.equal(signer.address);
-    expect(+balanceERC721Contract).to.equal(qtyToBuy * 10 ** 18);
+    expect(+balanceERC721Contract).to.equal(+qtyToBuy * 10 ** 18);
   });
 
   it("should buy with permit a meta-tx", async function () {
     const { forwarder, erc20WithPermit, erc721Meta, signer } = this;
-    const qtyToBuy = "1";
     const hardhatChainId = 31337;
 
     const signature = await signWithPermit(erc721Meta.address, erc20WithPermit, signer.provider, signer.address, hardhatChainId, qtyToBuy);
@@ -70,11 +70,11 @@ describe("autotasks/relay", function () {
 
     await relay(forwarder, requestMetaTxPermit, signatureMetaTxPermit);
 
-    const ERC721Owner = (await erc721Meta.ownerOf(1)).toString();
+    const ERC721Owner = (await erc721Meta.ownerOf(+qtyToBuy)).toString();
     const balanceERC721Contract = (await erc20WithPermit.balanceOf(erc721Meta.address)).toString();
 
     expect(ERC721Owner).to.equal(signer.address);
-    expect(+balanceERC721Contract).to.equal(+qtyToBuy);
+    expect(balanceERC721Contract).to.equal(qtyToBuy);
   });
 
   it("refuses to send incorrect signature", async function () {
@@ -83,11 +83,12 @@ describe("autotasks/relay", function () {
     const { request, signature } = await signMetaTxRequest(signer.provider, forwarder, {
       from: signer.address,
       to: erc721Meta.address,
-      data: erc721Meta.interface.encodeFunctionData('buy', [1]),
+      data: erc721Meta.interface.encodeFunctionData('buy', [+qtyToBuy]),
       nonce: 5,
     });
 
-    const whitelist = [erc721Meta.address]
+    const whitelist = [erc721Meta.address];
+    
     await expect(relay(forwarder, request, signature, whitelist)).to.be.rejectedWith(/invalid/i);
   });
 });
