@@ -40,6 +40,7 @@ Expected `.env` file in the project root:
 - `AUTOTASK_ID`: Defender Autotask ID to update when running `yarn upload`.
 - `TEAM_API_KEY`: Defender Team API key, used for uploading autotask code.
 - `TEAM_API_SECRET`: Defender Team API secret.
+- `API_KEY`:"Etherscan API key"
 
 Expected `.env` file in `/app`:
 
