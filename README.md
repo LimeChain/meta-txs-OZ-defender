@@ -114,6 +114,6 @@ $ yarn start
 ```
 
 1. Open app: [http://localhost:3000/](http://localhost:3000/)
-2. [Connect MetaMask to Mumbai network] and change to Mumbai network
-3. Enter a name to register and sign the metatransaction in MetaMask
-4. Your name will be registered, showing the address that created the metatransaction and the name.
+2. [Connect MetaMask to Mumbai network] and change to Mumbai network.
+3. Enter a quantity to be bought and execute `approve`, `buy` or `buy with permit`.
+4. Your purchase will be made, showing the address that created the meta transaction and the token IDs of the corresponding ERC721 tokens.
