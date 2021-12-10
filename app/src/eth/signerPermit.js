@@ -52,7 +52,7 @@ const signWithPermit = async (
     });
 
     const signatureLike = await signer.send("eth_signTypedData_v4", [
-        userAddress,
+        from,
         data,
     ]);
 
